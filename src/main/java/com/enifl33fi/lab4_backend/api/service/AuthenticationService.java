@@ -65,7 +65,7 @@ public class AuthenticationService {
                     .build();
         }
         refreshTokenService.deleteByToken(refreshToken);
-        throw new RefreshTokenException(refreshToken, "Invalid token");
+        throw new RefreshTokenException("Invalid token");
     }
 
     public AuthenticationResponse refresh(String refreshToken) {
@@ -81,7 +81,7 @@ public class AuthenticationService {
                     .build();
         }
         refreshTokenService.deleteByToken(refreshToken);
-        throw new RefreshTokenException(refreshToken, "Invalid token");
+        throw new RefreshTokenException("Invalid token");
     }
 
 }

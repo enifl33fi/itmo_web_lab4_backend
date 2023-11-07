@@ -44,6 +44,7 @@ public class JwtService {
     public Date extractRefreshExpirationDate(String token) {
         return extractRefreshClaim(token, Claims::getExpiration);
     }
+
     public Set<SimpleGrantedAuthority> extractAccessAuthorities(String token) {
         Set<?> roles = extractAccessClaim(token, claims -> claims.get("roles", Set.class));
         return roles.stream()
@@ -80,10 +81,10 @@ public class JwtService {
     }
 
     private String generateToken(UserDetails userDetails,
-                                String secretKey,
-                                Date issuedDate,
-                                Date expirationDate,
-                                Map<String, Object> extraClaims) {
+                                 String secretKey,
+                                 Date issuedDate,
+                                 Date expirationDate,
+                                 Map<String, Object> extraClaims) {
         return Jwts.builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
@@ -122,11 +123,12 @@ public class JwtService {
         return false;
     }
 
-    private  <T> T extractAccessClaim(String accessToken, Function<Claims, T> claimsResolver) {
+    private <T> T extractAccessClaim(String accessToken, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(accessToken, accessSecretKey);
         return claimsResolver.apply(claims);
     }
-    private  <T> T extractRefreshClaim(String refreshToken, Function<Claims, T> claimsResolver) {
+
+    private <T> T extractRefreshClaim(String refreshToken, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(refreshToken, refreshSecretKey);
         return claimsResolver.apply(claims);
     }

@@ -18,8 +18,8 @@ public class RefreshTokenService {
     public void saveToken(String token, User user) {
         RefreshToken refreshToken = getByUser(user)
                 .orElse(RefreshToken.builder()
-                .user(user)
-                .build());
+                        .user(user)
+                        .build());
         refreshToken.setToken(token);
         refreshTokenRepository.save(refreshToken);
     }
@@ -31,7 +31,7 @@ public class RefreshTokenService {
 
     public RefreshToken getByToken(String token) {
         return refreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> new RefreshTokenException(token, "Not found"));
+                .orElseThrow(() -> new RefreshTokenException("Not found"));
     }
 
     public void deleteByToken(String token) {

@@ -17,7 +17,7 @@ public class UserService implements UserDetailsService {
     @Override
     @Transactional
     public User loadUserByUsername(String username) {
-        User user =  userRepository.findById(username)
+        User user = userRepository.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User with provided username not found."));
         Hibernate.initialize(user.getAuthorities());
         return user;

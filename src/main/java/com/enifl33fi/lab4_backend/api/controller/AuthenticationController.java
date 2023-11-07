@@ -35,7 +35,7 @@ public class AuthenticationController {
     @ResponseBody
     public AuthenticationResponse getToken(
             @RequestBody RefreshJwtRequest request
-            ) {
+    ) {
         return authenticationService.getAccessToken(request.getRefreshToken());
     }
 
