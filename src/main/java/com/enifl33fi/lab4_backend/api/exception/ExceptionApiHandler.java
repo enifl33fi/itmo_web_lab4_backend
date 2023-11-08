@@ -19,34 +19,35 @@ public class ExceptionApiHandler {
     @ResponseBody
     @ExceptionHandler({UsernameNotFoundException.class})
     public ErrorResponse badRequestHandler(Exception e) {
-        return standardResponse(e, HttpServletResponse.SC_BAD_REQUEST);
+        return standardResponse(e, HttpStatus.BAD_REQUEST);
     }
 
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     @ResponseBody
     @ExceptionHandler({BadCredentialsException.class})
     public ErrorResponse unauthorizedHandler(Exception e) {
-        return standardResponse(e, HttpServletResponse.SC_UNAUTHORIZED);
+        return standardResponse(e, HttpStatus.UNAUTHORIZED);
     }
 
     @ResponseStatus(code = HttpStatus.METHOD_NOT_ALLOWED)
     @ResponseBody
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public ErrorResponse methodNotAllowedHandler(Exception e) {
-        return standardResponse(e, HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        return standardResponse(e, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ResponseStatus(code = HttpStatus.FORBIDDEN)
     @ResponseBody
     @ExceptionHandler({RefreshTokenException.class})
     public ErrorResponse forbiddenHandler(Exception e) {
-        return standardResponse(e, HttpServletResponse.SC_FORBIDDEN);
+        return standardResponse(e, HttpStatus.FORBIDDEN);
     }
 
-    private ErrorResponse standardResponse(Exception e, int status) {
+    private ErrorResponse standardResponse(Exception e, HttpStatus status) {
         return ErrorResponse.builder()
                 .message(e.getMessage())
-                .status(status)
+                .status(status.value())
+                .statusMessage(status.getReasonPhrase())
                 .build();
     }
 }
