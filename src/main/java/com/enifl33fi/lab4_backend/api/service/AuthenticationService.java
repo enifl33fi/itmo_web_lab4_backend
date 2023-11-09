@@ -3,6 +3,7 @@ package com.enifl33fi.lab4_backend.api.service;
 import com.enifl33fi.lab4_backend.api.dto.request.LoginUserDto;
 import com.enifl33fi.lab4_backend.api.dto.request.RegistrationUserDto;
 import com.enifl33fi.lab4_backend.api.dto.response.AuthenticationResponse;
+import com.enifl33fi.lab4_backend.api.exception.DuplicateUsernameException;
 import com.enifl33fi.lab4_backend.api.exception.RefreshTokenException;
 import com.enifl33fi.lab4_backend.api.mapper.UserMapper;
 import com.enifl33fi.lab4_backend.api.model.security.RefreshToken;
@@ -25,8 +26,14 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
+    private final ValidatingService validatingService;
 
     public AuthenticationResponse register(RegistrationUserDto userDto) {
+        validatingService.validateEntity(userDto);
+        if (!userService.isUsernameUnique(userDto.getUsername())) {
+            throw new DuplicateUsernameException(userDto.getUsername());
+        }
+
         User user = userMapper.mapRegistrationUser(userDto);
         userService.saveUser(user);
         String accessToken = jwtService.generateAccessToken(user);
@@ -39,6 +46,8 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse login(LoginUserDto userDto) {
+        validatingService.validateEntity(userDto);
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDto.getUsername(),

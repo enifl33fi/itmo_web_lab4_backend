@@ -12,7 +12,7 @@ import javax.lang.model.element.Name;
         info = @Info(
                 title = "Lab4 backend",
                 description = "Backend for fourth web laboratory work",
-                version = "0.0.1",
+                version = "0.0.2",
                 contact = @Contact (
                         name = "Markov Kirill",
                         email = "kamarkoff@gmail.com",

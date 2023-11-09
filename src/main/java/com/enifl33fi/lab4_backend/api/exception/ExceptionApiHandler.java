@@ -2,11 +2,13 @@ package com.enifl33fi.lab4_backend.api.exception;
 
 import com.enifl33fi.lab4_backend.api.dto.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,7 +19,11 @@ public class ExceptionApiHandler {
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    @ExceptionHandler({UsernameNotFoundException.class})
+    @ExceptionHandler({
+            UsernameNotFoundException.class,
+            DuplicateUsernameException.class,
+            ConstraintViolationException.class,
+            MethodArgumentNotValidException.class})
     public ErrorResponse badRequestHandler(Exception e) {
         return standardResponse(e, HttpStatus.BAD_REQUEST);
     }

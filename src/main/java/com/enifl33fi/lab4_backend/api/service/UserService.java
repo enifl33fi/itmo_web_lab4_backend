@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
@@ -25,5 +27,10 @@ public class UserService implements UserDetailsService {
 
     public void saveUser(User user) {
         userRepository.save(user);
+    }
+
+    public boolean isUsernameUnique(String username) {
+        Optional<User> userFromDB = userRepository.findById(username);
+        return userFromDB.isEmpty();
     }
 }
