@@ -23,11 +23,12 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
     @Id
     private String username;
+    @Column(nullable = false)
     private String password;
     @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(value = EnumType.STRING)
     private Set<Role> roles;
-
+    @Column(nullable = false)
     private boolean locked;
 
     @Override
