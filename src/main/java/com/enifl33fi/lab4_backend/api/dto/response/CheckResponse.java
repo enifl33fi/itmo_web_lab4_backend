@@ -7,14 +7,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Entity with list of previous results ")
-public class HistoryResponse {
-    @Schema(description = "Previous result list ")
-    private List<ResponseResultDto> results;
+@Schema(description = "Entity with last checked result")
+public class CheckResponse {
+    @Schema(description = "Last checked result")
+    private ResponseResultDto checkedResult;
 }

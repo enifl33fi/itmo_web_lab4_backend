@@ -6,7 +6,6 @@ import com.enifl33fi.lab4_backend.api.repository.ResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,8 +13,12 @@ import java.util.List;
 public class ResultService {
     private final ResultRepository resultRepository;
 
-    private List<Result> getResultsByUser(User user) {
+    public List<Result> getResultsByUser(User user) {
         return resultRepository.findAllByUser(user);
+    }
+
+    public void saveResult(Result result) {
+        resultRepository.save(result);
     }
 
 }

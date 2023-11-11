@@ -1,6 +1,7 @@
 package com.enifl33fi.lab4_backend.api.model.calculation;
 
 import com.enifl33fi.lab4_backend.api.model.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +36,7 @@ public class Result {
     @Column(nullable = false)
     private Long scriptTime;
     @Column(nullable = false)
-    private Boolean result;
+    private Boolean hit;
 
 
 }

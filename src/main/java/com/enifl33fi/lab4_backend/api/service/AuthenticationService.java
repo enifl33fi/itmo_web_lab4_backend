@@ -13,7 +13,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,7 +33,7 @@ public class AuthenticationService {
             throw new DuplicateUsernameException(userDto.getUsername());
         }
 
-        User user = userMapper.mapRegistrationUser(userDto);
+        User user = userMapper.mapUserFromRegistrationDto(userDto);
         userService.saveUser(user);
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
