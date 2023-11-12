@@ -1,5 +1,7 @@
 package com.enifl33fi.lab4_backend.api.dto.request;
 
+import com.enifl33fi.lab4_backend.api.utils.deserializer.FlexibleDoubleDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -19,15 +21,18 @@ public class CheckResultDto {
     @DecimalMin(value = "-3.0")
     @DecimalMax(value = "5.0")
     @NotNull
+    @JsonDeserialize(using = FlexibleDoubleDeserializer.class)
     private Double x;
     @Schema(description = "y coordinate")
     @DecimalMin(value = "-3.0")
     @DecimalMax(value = "3.0")
     @NotNull
+    @JsonDeserialize(using = FlexibleDoubleDeserializer.class)
     private Double y;
     @Schema(description = "radius")
     @DecimalMin(value = "0.0")
     @DecimalMax(value = "5.0")
     @NotNull
+    @JsonDeserialize(using = FlexibleDoubleDeserializer.class)
     private Double r;
 }
