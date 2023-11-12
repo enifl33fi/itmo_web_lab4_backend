@@ -6,6 +6,7 @@ import com.enifl33fi.lab4_backend.api.dto.response.HistoryResponse;
 import com.enifl33fi.lab4_backend.api.model.user.User;
 import com.enifl33fi.lab4_backend.api.service.CalculationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ public class CalculationController {
             summary = "Get previous result",
             description = "Returns collection of previous results for current principal"
     )
+    @SecurityRequirement(name = "JWT")
     @GetMapping("/history")
     @ResponseBody
     public HistoryResponse getHistory(Authentication authentication) {
@@ -39,6 +41,7 @@ public class CalculationController {
             summary = "Check current try and return results",
             description = "Forms and returns single result from data that was send"
     )
+    @SecurityRequirement(name = "JWT")
     @PostMapping("/check")
     public CheckResponse check(@RequestBody CheckResultDto resultDto,
                                Authentication authentication) {
