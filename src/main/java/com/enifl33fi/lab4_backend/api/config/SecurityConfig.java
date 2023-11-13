@@ -39,7 +39,7 @@ public class SecurityConfig {
                         auth.requestMatchers(
                                 "/api/auth/register",
                                         "/api/auth/login",
-                                        "/api/auth/token",
+                                        "/api/auth/refresh",
                                         "/error",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**")

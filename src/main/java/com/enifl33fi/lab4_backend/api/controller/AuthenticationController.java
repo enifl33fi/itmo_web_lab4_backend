@@ -47,27 +47,15 @@ public class AuthenticationController {
     }
 
     @Operation(
-            summary = "Receiving accept token",
-            description = "Allows to receive new accept token"
+            summary = "Receiving accept and refresh token",
+            description = "Allows to receive new accept and refresh token"
     )
-    @PostMapping("/token")
+    @PostMapping("/refresh")
     @ResponseBody
     public AuthenticationResponse getToken(
             @RequestBody RefreshJwtRequest request
     ) {
-        return authenticationService.getAccessToken(request.getRefreshToken());
+        return authenticationService.getTokens(request.getRefreshToken());
     }
 
-    @Operation(
-            summary = "Receiving refresh and accept tokens",
-            description = "Allows to receive new refresh and accept tokens"
-    )
-    @SecurityRequirement(name = "JWT")
-    @PostMapping("/refresh")
-    @ResponseBody
-    public AuthenticationResponse refresh(
-            @RequestBody RefreshJwtRequest request
-    ) {
-        return authenticationService.refresh(request.getRefreshToken());
-    }
 }

@@ -35,13 +35,7 @@ public class AuthenticationService {
 
         User user = userMapper.mapUserFromRegistrationDto(userDto);
         userService.saveUser(user);
-        String accessToken = jwtService.generateAccessToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
-        refreshTokenService.saveToken(refreshToken, user);
-        return AuthenticationResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return getResponseByUser(user);
     }
 
     public AuthenticationResponse login(LoginUserDto userDto) {
@@ -54,6 +48,20 @@ public class AuthenticationService {
                 )
         );
         User user = (User) authentication.getPrincipal();
+        return getResponseByUser(user);
+    }
+
+    public AuthenticationResponse getTokens(String refreshToken) {
+        if (jwtService.validateRefreshToken(refreshToken)) {
+            RefreshToken token = refreshTokenService.getByToken(refreshToken);
+            User user = token.getUser();
+            return getResponseByUser(user);
+        }
+        refreshTokenService.deleteByToken(refreshToken);
+        throw new RefreshTokenException("Invalid token");
+    }
+
+    private AuthenticationResponse getResponseByUser(User user) {
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
         refreshTokenService.saveToken(refreshToken, user);
@@ -61,35 +69,6 @@ public class AuthenticationService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
-    }
-
-    public AuthenticationResponse getAccessToken(String refreshToken) {
-        if (jwtService.validateRefreshToken(refreshToken)) {
-            RefreshToken token = refreshTokenService.getByToken(refreshToken);
-            User user = token.getUser();
-            String accessToken = jwtService.generateAccessToken(user);
-            return AuthenticationResponse.builder()
-                    .accessToken(accessToken)
-                    .build();
-        }
-        refreshTokenService.deleteByToken(refreshToken);
-        throw new RefreshTokenException("Invalid token");
-    }
-
-    public AuthenticationResponse refresh(String refreshToken) {
-        if (jwtService.validateRefreshToken(refreshToken)) {
-            RefreshToken token = refreshTokenService.getByToken(refreshToken);
-            User user = token.getUser();
-            String accessToken = jwtService.generateAccessToken(user);
-            String newRefreshToken = jwtService.generateRefreshToken(user);
-            refreshTokenService.saveToken(newRefreshToken, user);
-            return AuthenticationResponse.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(newRefreshToken)
-                    .build();
-        }
-        refreshTokenService.deleteByToken(refreshToken);
-        throw new RefreshTokenException("Invalid token");
     }
 
 }
