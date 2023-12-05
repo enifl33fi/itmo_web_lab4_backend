@@ -61,6 +61,10 @@ public class AuthenticationService {
         throw new RefreshTokenException("Invalid token");
     }
 
+    public Boolean isUserUnique(String username) {
+        return userService.isUsernameUnique(username);
+    }
+
     private AuthenticationResponse getResponseByUser(User user) {
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);

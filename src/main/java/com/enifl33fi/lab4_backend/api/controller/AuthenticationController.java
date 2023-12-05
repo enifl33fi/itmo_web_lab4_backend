@@ -9,7 +9,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.Map;
 
 @Tag(
         name = "Authentication controller",
@@ -56,6 +60,13 @@ public class AuthenticationController {
             @RequestBody RefreshJwtRequest request
     ) {
         return authenticationService.getTokens(request.getRefreshToken());
+    }
+
+    @GetMapping("/unique")
+    @ResponseBody
+    public Map<String, Boolean> isUserUnique(@RequestParam("username") String username) {
+        Boolean isUnique = authenticationService.isUserUnique(username);
+        return Collections.singletonMap("unique", isUnique);
     }
 
 }
