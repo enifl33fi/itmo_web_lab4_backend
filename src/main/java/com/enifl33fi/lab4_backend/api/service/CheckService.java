@@ -22,6 +22,6 @@ public class CheckService {
     }
 
     private boolean isInRectangle(double x, double y, double r) {
-        return x <= 0 && y <= 0 && x >= -r/2 && y >= -r;
+        return x <= 0 && y <= 0 && x >= -r && y >= -r/2;
     }
 }
