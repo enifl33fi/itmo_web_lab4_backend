@@ -24,6 +24,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -46,10 +47,10 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(
-                                "/api/auth/**",
-                                        "/error",
-                                        "/swagger-ui/**",
-                                        "/v3/api-docs/**")
+                                        AntPathRequestMatcher.antMatcher("/api/auth/**"),
+                                        AntPathRequestMatcher.antMatcher("/error"),
+                                        AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
+                                        AntPathRequestMatcher.antMatcher("/v3/api-docs/**"))
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
